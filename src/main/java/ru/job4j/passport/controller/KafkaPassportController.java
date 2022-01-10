@@ -1,6 +1,5 @@
 package ru.job4j.passport.controller;
 
-import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -29,7 +28,7 @@ public class KafkaPassportController {
         this.passportService = passportService;
     }
 
-    @Scheduled(fixedRate = 5000)
+    /* @Scheduled(fixedRate = 5000) */
     public void sendUnavailablePassports() {
         List<Passport> unavailablePassports = passportService.findUnavailablePassports();
         if (!unavailablePassports.isEmpty()) {
