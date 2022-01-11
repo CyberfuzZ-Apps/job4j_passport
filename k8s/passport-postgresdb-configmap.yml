@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: passport-postgresdb-configmap
+data:
+  database_url: jdbc:postgresql://passport-postgresdb-service/passport
+  postgres-db: passport

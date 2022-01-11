@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: passport-spring-boot
+  labels:
+    app: passport-spring-boot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: passport-spring-boot
+  template:
+    metadata:
+      labels:
+        app: passport-spring-boot
+    spec:
+      containers:
+        - name: passport-spring-boot
+          image: cyberfuzz/job4j_passport
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: passport-postgresdb-secret
+                  key: postgres-username
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: passport-postgresdb-secret
+                  key: postgres-password
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: passport-postgresdb-configmap
+                  key: database_url
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: passport-spring-boot-service
+spec:
+  selector:
+    app: passport-spring-boot
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      nodePort: 32101

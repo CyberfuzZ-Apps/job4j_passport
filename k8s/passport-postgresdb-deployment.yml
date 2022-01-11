@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: passport-postgresdb-deployment
+  labels:
+    app: passport-postgresdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: passport-postgresdb
+  template:
+    metadata:
+      labels:
+        app: passport-postgresdb
+    spec:
+      containers:
+        - name: passport-postgresdb
+          image: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: passport-postgresdb-secret
+                  key: postgres-username
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: passport-postgresdb-secret
+                  key: postgres-password
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: passport-postgresdb-configmap
+                  key: postgres-db
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: passport-postgresdb-service
+spec:
+  selector:
+    app: passport-postgresdb
+  ports:
+    - protocol: TCP
+      port: 5432
+      targetPort: 5432
