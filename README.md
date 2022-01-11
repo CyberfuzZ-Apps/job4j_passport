@@ -17,6 +17,8 @@ Job4j_passport - сервис для работы с паспортами.
 
 ## Подробнее:
 
+### http://sitename/api/passport
+
 Поддерживаются следующие методы:
 
 - /save, сохранить данные паспорта
@@ -30,11 +32,28 @@ Job4j_passport - сервис для работы с паспортами.
 
 ## Сборка и запуск проекта:
 
+### Maven:
+
 Сборка с помощью Maven `mvn install`
+
+### Docker:
 
 Сборка с помощью Docker `docker build -t passport .`
 
 Запуск с помощью Docker-compose `docker-compose up`
+
+### Kubernetes:
+
+Сборка:
+
+- `kubectl apply -f k8s/passport-postgresdb-secret.yml`
+- `kubectl apply -f k8s/passport-postgresdb-configmap.yml`
+- `kubectl apply -f k8s/passport-postgresdb-deployment.yml`
+- `kubectl apply -f k8s/passport-spring-boot-deployment.yml`
+
+Запуск:
+
+- `minikube service passport-spring-boot-service`
 
 ## Контакты.
 Если у вас есть какие-либо вопросы, не стесняйтесь обращаться ко мне:
