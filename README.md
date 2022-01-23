@@ -13,6 +13,9 @@ Job4j_passport - сервис для работы с паспортами.
 - Java 11
 - PostgreSQL
 - Maven
+- Docker
+- Docker-compose
+- Kubernetes
 
 
 ## Подробнее:
